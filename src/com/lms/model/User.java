@@ -1,4 +1,4 @@
-package model;
+package com.lms.model;
 
 public class User {
 	private int userID;
@@ -9,13 +9,23 @@ public class User {
 	private String phoneNumber;
 	private String type;
 	
-	public void setUserID(int userID) {this.userID = userID;}
-	public void setName(String name) {this.name = name;}
-	public void setUserName(String userName) {this.userName = userName;}
-	public void setPassword(String password) {this.password = password;}
-	public void setEmail(String email) {this.email = email;}
-	public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
-	public void setType(String type) {this.type = type;}
+	/*
+	 * public void setUserID(int userID) {this.userID = userID;} public void
+	 * setName(String name) {this.name = name;} public void setUserName(String
+	 * userName) {this.userName = userName;} public void setPassword(String
+	 * password) {this.password = password;} public void setEmail(String email)
+	 * {this.email = email;} public void setPhoneNumber(String phoneNumber)
+	 * {this.phoneNumber = phoneNumber;} public void setType(String type) {this.type
+	 * = type;}
+	 */
+	public void setDetails(String name,String userName, String password , String email , String phoneNumber ) {
+		this.name = name;
+		this.userName = userName;
+		this.password = password;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.type = "LIBRARIAN";
+	}
 	
 	public int getUserID() {return userID;}
 	public String getName() {return name;}

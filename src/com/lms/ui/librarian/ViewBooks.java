@@ -1,7 +1,7 @@
 //Frame used by Librarian to view books and filter them based on genre, availability and ISBN Code
 //Called from LibrarianSection.java
 
-package frames;
+package com.lms.ui.librarian;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

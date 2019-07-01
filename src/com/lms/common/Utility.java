@@ -1,4 +1,4 @@
-package utility;
+package com.lms.common;
 
 public class Utility {
 

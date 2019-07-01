@@ -2,7 +2,7 @@
 //Called from Main.java
 //Calls to AdminLogin.java and LibrarianLogin.java
 
-package frames;
+package com.lms.ui.main;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -10,9 +10,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.lms.ui.admin.AdminLogin;
+
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FirstPage extends JFrame {
 
@@ -52,6 +58,13 @@ public class FirstPage extends JFrame {
 		contentPane.add(lblLibraryManagement);
 		
 		JButton btnAdminLogin = new JButton("Admin Login");
+		btnAdminLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				AdminLogin AdminLogin = new AdminLogin();
+				AdminLogin.setVisible(true);
+			}
+		});
 		btnAdminLogin.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnAdminLogin.setBounds(160, 98, 123, 41);
 		contentPane.add(btnAdminLogin);

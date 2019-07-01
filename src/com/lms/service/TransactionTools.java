@@ -1,9 +1,9 @@
 //All interaction with Database with regards to Table Transaction;
 
-package sqlTools;
+package com.lms.service;
 
-import database.SQLConnection;
-import model.Transaction;
+import com.lms.db.util.SQLConnection;
+import com.lms.model.Transaction;
 
 public class TransactionTools {
 	public boolean addTransaction(Transaction transactionObj) {return true;}

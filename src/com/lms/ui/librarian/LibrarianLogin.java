@@ -1,7 +1,7 @@
 //Frame for Librarian to Login.
 //Called from FirstPage.java
 
-package frames;
+package com.lms.ui.librarian;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

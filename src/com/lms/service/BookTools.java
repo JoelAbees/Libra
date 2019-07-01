@@ -1,9 +1,9 @@
 //All interaction with Database with regards to Table Books and Book_Details
 
-package sqlTools;
+package com.lms.service;
 
-import database.SQLConnection;
-import model.Book;
+import com.lms.db.util.SQLConnection;
+import com.lms.model.Book;
 
 public class BookTools {
 	

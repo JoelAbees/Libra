@@ -1,7 +1,7 @@
 //Frame used by adminstrator to view Librarian
 //Called from AdminSection.java
 
-package frames;
+package com.lms.ui.admin;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

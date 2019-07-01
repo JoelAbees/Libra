@@ -1,4 +1,4 @@
-package database;
+package com.lms.db.util;
 
 import javax.swing.JOptionPane;
 import java.sql.Connection;

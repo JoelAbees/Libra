@@ -1,7 +1,7 @@
 //Frame for Admin to Login. 
 //Called from FirstPage.java
 
-package frames;
+package com.lms.ui.admin;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -10,10 +10,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AdminLogin extends JFrame {
 
@@ -74,6 +78,26 @@ public class AdminLogin extends JFrame {
 		contentPane.add(passwordField);
 		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String userName = tf_adminUserName.getText();
+					String password = passwordField.getText();
+					
+					if(userName.equals("admin") && password.equals("admin123")) {
+						dispose();
+						AdminSection AdminSection = new AdminSection();
+						AdminSection.setVisible(true);						
+					}else {
+						JOptionPane.showMessageDialog(null, "Username or Password is wrong");
+					}
+					
+				}catch(Exception e2){
+					JOptionPane.showMessageDialog(null, e);
+				}
+				}
+			
+		});
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnLogin.setBounds(190, 206, 89, 30);
 		contentPane.add(btnLogin);

@@ -1,4 +1,4 @@
-package frames;
+package com.lms.ui.main;
 import java.awt.EventQueue;
 public class Main {
 

@@ -1,7 +1,7 @@
 //Frame used by admin to Add Librarian to database. 
 //Called from AdminSection.java
 
-package frames;
+package com.lms.ui.admin;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -9,19 +9,28 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.lms.model.User;
+import com.lms.service.BookTools;
+import com.lms.service.UserTools;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AddLibrarian extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField tf_librarianName;
+	private JTextField tf_librarianUserName;
+	private JTextField tf_librarianPassword;
+	private JTextField tf_librarianEmail;
+	private JTextField tf_librarianPhoneNumber;
 
 	/**
 	 * Launch the application.
@@ -81,32 +90,37 @@ public class AddLibrarian extends JFrame {
 		lblPhoneNumber.setBounds(284, 113, 106, 14);
 		contentPane.add(lblPhoneNumber);
 		
-		textField = new JTextField();
-		textField.setBounds(150, 66, 96, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		tf_librarianName = new JTextField();
+		tf_librarianName.setBounds(150, 66, 96, 20);
+		contentPane.add(tf_librarianName);
+		tf_librarianName.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(150, 111, 96, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		tf_librarianUserName = new JTextField();
+		tf_librarianUserName.setBounds(150, 111, 96, 20);
+		contentPane.add(tf_librarianUserName);
+		tf_librarianUserName.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(150, 155, 96, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		tf_librarianPassword = new JTextField();
+		tf_librarianPassword.setBounds(150, 155, 96, 20);
+		contentPane.add(tf_librarianPassword);
+		tf_librarianPassword.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(385, 66, 146, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		tf_librarianEmail = new JTextField();
+		tf_librarianEmail.setBounds(385, 66, 146, 20);
+		contentPane.add(tf_librarianEmail);
+		tf_librarianEmail.setColumns(10);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(385, 111, 96, 20);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
+		tf_librarianPhoneNumber = new JTextField();
+		tf_librarianPhoneNumber.setBounds(385, 111, 96, 20);
+		contentPane.add(tf_librarianPhoneNumber);
+		tf_librarianPhoneNumber.setColumns(10);
 		
 		JButton btnAddLibrarian = new JButton("Add Librarian");
+		btnAddLibrarian.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				do_insertLibrarian();
+			}
+		});
 		btnAddLibrarian.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAddLibrarian.setBounds(218, 196, 123, 43);
 		contentPane.add(btnAddLibrarian);
@@ -115,5 +129,30 @@ public class AddLibrarian extends JFrame {
 		btnBack.setBounds(10, 270, 89, 23);
 		contentPane.add(btnBack);
 	}
+	
+	protected void do_insertLibrarian() {
+		
+		User librarian = new User();
+		UserTools userTool =  new UserTools();
+		
+		if (tf_librarianName.getText() != null && !"".equals(tf_librarianName.getText())
+				&& tf_librarianUserName.getText() != null && !"".equals(tf_librarianUserName.getText())
+				&& tf_librarianPassword.getText() != null && !"".equals(tf_librarianPassword.getText())
+				&& tf_librarianEmail.getText() != null && !"".equals(tf_librarianEmail.getText())
+				&& tf_librarianPhoneNumber.getText() != null && !"".equals(tf_librarianPhoneNumber.getText())) {
+			librarian.setDetails(tf_librarianName.getText(),tf_librarianUserName.getText(),tf_librarianPassword.getText(),tf_librarianEmail.getText(),tf_librarianPhoneNumber.getText());
+			
+			int i = userTool.addLibrarian(librarian);
+			if (i == 1) {
+				JOptionPane.showMessageDialog(getContentPane(), "User Added Successfully", "", JOptionPane.WARNING_MESSAGE);
+				return;
+			} else {
+				JOptionPane.showMessageDialog(getContentPane(), "Adding User Failed", "", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+		}
+		
+	};
+	
 
 }

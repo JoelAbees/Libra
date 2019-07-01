@@ -1,7 +1,7 @@
 //Frame Librarian use to add book details if book not already present in DB
 //CalledFrom AddBook.java
 
-package frames;
+package com.lms.ui.librarian;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

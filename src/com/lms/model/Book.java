@@ -1,4 +1,4 @@
-package model;
+package com.lms.model;
 
 public class Book {
 	private int bookID;

@@ -2,7 +2,7 @@
 //Called from LibrarianSection.java
 //Calls to NewBookForm.java
 
-package frames;
+package com.lms.ui.admin;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
