@@ -18,13 +18,13 @@ public class User {
 	 * {this.phoneNumber = phoneNumber;} public void setType(String type) {this.type
 	 * = type;}
 	 */
-	public void setDetails(String name,String userName, String password , String email , String phoneNumber ) {
+	public void setDetails(String name,String userName, String password , String email , String phoneNumber, String type ) {
 		this.name = name;
 		this.userName = userName;
 		this.password = password;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-		this.type = "LIBRARIAN";
+		this.type = type;
 	}
 	
 	public int getUserID() {return userID;}

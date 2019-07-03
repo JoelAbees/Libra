@@ -3,25 +3,23 @@
 
 package com.lms.ui.admin;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import com.lms.model.User;
-import com.lms.service.BookTools;
-import com.lms.service.UserTools;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import com.lms.common.Utility;
+import com.lms.model.User;
+import com.lms.service.UserTools;
+import com.lms.ui.main.FirstPage;
 
 public class AddLibrarian extends JFrame {
 
@@ -126,33 +124,46 @@ public class AddLibrarian extends JFrame {
 		contentPane.add(btnAddLibrarian);
 		
 		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				AdminSection adminSection = new AdminSection();
+				adminSection.setVisible(true);
+			}
+		});
 		btnBack.setBounds(10, 270, 89, 23);
 		contentPane.add(btnBack);
 	}
 	
+	// triggers addition of new Librarian to DB
 	protected void do_insertLibrarian() {
 		
+		String errorMessage = null;
 		User librarian = new User();
 		UserTools userTool =  new UserTools();
 		
-		if (tf_librarianName.getText() != null && !"".equals(tf_librarianName.getText())
-				&& tf_librarianUserName.getText() != null && !"".equals(tf_librarianUserName.getText())
-				&& tf_librarianPassword.getText() != null && !"".equals(tf_librarianPassword.getText())
-				&& tf_librarianEmail.getText() != null && !"".equals(tf_librarianEmail.getText())
-				&& tf_librarianPhoneNumber.getText() != null && !"".equals(tf_librarianPhoneNumber.getText())) {
-			librarian.setDetails(tf_librarianName.getText(),tf_librarianUserName.getText(),tf_librarianPassword.getText(),tf_librarianEmail.getText(),tf_librarianPhoneNumber.getText());
-			
-			int i = userTool.addLibrarian(librarian);
-			if (i == 1) {
-				JOptionPane.showMessageDialog(getContentPane(), "User Added Successfully", "", JOptionPane.WARNING_MESSAGE);
+		//Validate if all input fields are filled
+		boolean  validateInputResult = Utility.validateInput(tf_librarianName.getText(),tf_librarianUserName.getText(),tf_librarianPassword.getText(),tf_librarianEmail.getText(),tf_librarianPhoneNumber.getText());
+		
+		
+		if (validateInputResult) {
+			if(UserTools.isUsernameUnique(tf_librarianUserName.getText())) {
+			//Add Librarian to DB
+			librarian.setDetails(tf_librarianName.getText(),tf_librarianUserName.getText(),tf_librarianPassword.getText(),tf_librarianEmail.getText(),tf_librarianPhoneNumber.getText(), "LIBRARIAN");
+			int i = userTool.addUser(librarian); 
+			if (i == 1) { 
+				JOptionPane.showMessageDialog(null, "Succesfully added user");
 				return;
-			} else {
-				JOptionPane.showMessageDialog(getContentPane(), "Adding User Failed", "", JOptionPane.WARNING_MESSAGE);
-				return;
-			}
+			} else {errorMessage =  "Adding User Failed";}
+			}else {errorMessage =  "Username already taken";}
+		}else {errorMessage =  "Please fill all details";}
+		
+		
+		if(errorMessage != null && !errorMessage.isEmpty())  {
+			JOptionPane.showMessageDialog(getContentPane(), errorMessage, "", JOptionPane.WARNING_MESSAGE);
+			return;
 		}
 		
 	};
 	
-
 }
