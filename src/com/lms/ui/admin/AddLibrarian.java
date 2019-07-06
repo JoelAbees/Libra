@@ -19,7 +19,7 @@ import javax.swing.JButton;
 import com.lms.common.Utility;
 import com.lms.model.User;
 import com.lms.service.UserTools;
-import com.lms.ui.main.FirstPage;
+//import com.lms.ui.main.FirstPage;
 
 public class AddLibrarian extends JFrame {
 
@@ -32,7 +32,7 @@ public class AddLibrarian extends JFrame {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -44,7 +44,7 @@ public class AddLibrarian extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.

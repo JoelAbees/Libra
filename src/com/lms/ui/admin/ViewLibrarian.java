@@ -3,21 +3,21 @@
 
 package com.lms.ui.admin;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+//import java.awt.BorderLayout;
+//import java.awt.EventQueue;
+//import java.sql.Connection;
+//import java.sql.ResultSet;
+//import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Vector;
+//import java.sql.Statement;
+//import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
+//import javax.swing.table.DefaultTableModel;
 
-import com.lms.db.util.SQLConnection;
+//import com.lms.db.util.SQLConnection;
 import com.lms.service.UserTools;
 
 import javax.swing.JTable;
@@ -30,10 +30,10 @@ public class ViewLibrarian extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-	Connection conn = null;
+	//Connection conn = null;
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -45,7 +45,7 @@ public class ViewLibrarian extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.

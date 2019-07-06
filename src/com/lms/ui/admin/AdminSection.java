@@ -4,8 +4,8 @@
 
 package com.lms.ui.admin;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+//import java.awt.BorderLayout;
+//import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,7 +25,7 @@ public class AdminSection extends JFrame {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -37,7 +37,7 @@ public class AdminSection extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.

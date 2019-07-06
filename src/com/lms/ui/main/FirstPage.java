@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.lms.ui.admin.AdminLogin;
-
+import com.lms.ui.librarian.LibrarianLogin;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -39,7 +39,7 @@ public class FirstPage extends JFrame {
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the frame.
 	 */
@@ -70,6 +70,13 @@ public class FirstPage extends JFrame {
 		contentPane.add(btnAdminLogin);
 		
 		JButton btnLibrarianLogin = new JButton("Librarian Login");
+		btnLibrarianLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				LibrarianLogin librarianLogin = new LibrarianLogin();
+				librarianLogin.setVisible(true);
+			}
+		});
 		btnLibrarianLogin.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnLibrarianLogin.setBounds(157, 162, 126, 41);
 		contentPane.add(btnLibrarianLogin);

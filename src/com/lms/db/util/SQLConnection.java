@@ -10,7 +10,7 @@ public class SQLConnection {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			Connection conn = DriverManager.getConnection("jdbc:sqlite:LibraryManagaement.db");
-			JOptionPane.showMessageDialog(null, "Connection Succesfully Established");
+			//JOptionPane.showMessageDialog(null, "Connection Succesfully Established");
 			return conn;
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, e);

@@ -9,11 +9,22 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.lms.common.Utility;
+import com.lms.service.UserTools;
+import com.lms.ui.admin.AdminLogin;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import java.util.prefs.Preferences; 
 
 public class LibrarianLogin extends JFrame {
 
@@ -74,9 +85,37 @@ public class LibrarianLogin extends JFrame {
 		contentPane.add(passwordField);
 		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(do_LibrarianLogin()) {
+					dispose();
+					LibrarianSection librarianSection = new LibrarianSection();
+					librarianSection.setVisible(true);
+				};
+			}
+		});
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnLogin.setBounds(178, 194, 89, 35);
 		contentPane.add(btnLogin);
 	}
+	
+	private boolean do_LibrarianLogin() {
+		String errorMessage = null;
+		String userName = tf_librarianUserName.getText();
+		String password = passwordField.getText();
+		
+		if(Utility.validateInput(userName,password)) {
+			int librarianID = UserTools.userLogin(userName,password);
+			if (librarianID != -1) {
+				Preferences prefs = Preferences.userNodeForPackage(this.getClass());
+				prefs.putInt("userId", librarianID);
+				return true;
+				
+			}else {errorMessage = "Username or Password is wrong";}
+
+		}else {errorMessage = "Please enter both Username and Password";}
+		
+		return false; 
+		}
 
 }
