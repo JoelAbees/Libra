@@ -9,7 +9,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.lms.common.Utility;
+import com.lms.model.Book;
+import com.lms.model.User;
+import com.lms.service.BookServices;
+import com.lms.service.UserTools;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBoxMenuItem;
@@ -27,6 +36,8 @@ public class NewBookForm extends JFrame {
 	private JTextField tf_Publisher;
 	private JTextField tf_price;
 	private JTextField tf_genre;
+	//private String ISBN;
+	//private int quantity;
 
 	/**
 	 * Launch the application.
@@ -35,7 +46,7 @@ public class NewBookForm extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					NewBookForm frame = new NewBookForm();
+					NewBookForm frame = new NewBookForm("test ISBN", 1);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +58,11 @@ public class NewBookForm extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public NewBookForm() {
+	public NewBookForm(String isbn , int quantity) {
+		
+		//this.ISBN = isbn;
+		//this.quantity = quantity;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 414);
 		contentPane = new JPanel();
@@ -112,8 +127,40 @@ public class NewBookForm extends JFrame {
 		tf_genre.setColumns(10);
 		
 		JButton btnRegisterNewBook = new JButton("Register New Book");
+		btnRegisterNewBook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				do_InsertBooks(isbn, quantity);
+			}
+		});
 		btnRegisterNewBook.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnRegisterNewBook.setBounds(147, 288, 143, 52);
 		contentPane.add(btnRegisterNewBook);
+	}
+	
+	private void do_InsertBooks(String isbn , int quantity) {
+		String errorMessage = null;
+		Book book = new Book();
+		BookServices bookServices =  new BookServices();
+		
+		boolean  validateInputResult = Utility.validateInput(tf_bookTitle.getText(), tf_Author.getText(), tf_Publisher.getText() , tf_price.getText(), tf_genre.getText());
+		if (validateInputResult) {
+			
+			book.setDetails(isbn, tf_bookTitle.getText(), tf_Author.getText(), tf_Publisher.getText() , tf_price.getText(), tf_genre.getText());
+			int bookDetailCount = bookServices.addBookDetails(book);
+			
+			if (bookDetailCount == 1) { 
+				JOptionPane.showMessageDialog(null, "Succesfully added book details");
+				int bookCount = bookServices.addBook(isbn,quantity);
+
+				if (bookCount != 0) {
+					JOptionPane.showMessageDialog(null, "Succesfully added " + bookCount + " book details");
+					dispose();
+				}else{errorMessage =  "No books were added";}
+			}else {errorMessage =  "Adding books Failed";}
+		}else {errorMessage =  "Please fill all details";}
+		if(errorMessage != null && !errorMessage.isEmpty())  {
+			JOptionPane.showMessageDialog(getContentPane(), errorMessage, "", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
 	}
 }

@@ -91,7 +91,7 @@ public class LibrarianLogin extends JFrame {
 					dispose();
 					LibrarianSection librarianSection = new LibrarianSection();
 					librarianSection.setVisible(true);
-				};
+				}else{JOptionPane.showMessageDialog(null, "Username or Password is wrong");};
 			}
 		});
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -100,7 +100,6 @@ public class LibrarianLogin extends JFrame {
 	}
 	
 	private boolean do_LibrarianLogin() {
-		String errorMessage = null;
 		String userName = tf_librarianUserName.getText();
 		String password = passwordField.getText();
 		
@@ -110,11 +109,8 @@ public class LibrarianLogin extends JFrame {
 				Preferences prefs = Preferences.userNodeForPackage(this.getClass());
 				prefs.putInt("userId", librarianID);
 				return true;
-				
-			}else {errorMessage = "Username or Password is wrong";}
-
-		}else {errorMessage = "Please enter both Username and Password";}
-		
+			}
+		}		
 		return false; 
 		}
 

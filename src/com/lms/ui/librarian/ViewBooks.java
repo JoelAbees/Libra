@@ -9,19 +9,28 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.lms.service.BookServices;
+import com.lms.service.UserTools;
+
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.sql.SQLException;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JList;
+import javax.swing.JComboBox;
 
 public class ViewBooks extends JFrame {
 
 	private JPanel contentPane;
+	//public static JTable table = new JTable();
 	private JTable table;
-	private JTextField tf_genre;
-	private JTextField tf_availability;
 	private JTextField tf_ISBN;
 
 	/**
@@ -44,8 +53,8 @@ public class ViewBooks extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewBooks() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 668, 441);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 668, 467);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
@@ -56,7 +65,13 @@ public class ViewBooks extends JFrame {
 		scrollPane.setBounds(10, 103, 632, 288);
 		contentPane.add(scrollPane);
 		
-		table = new JTable();
+		try {
+			table = new JTable(BookServices.viewBooks());
+			//table.add(BookServices.viewBooks());
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		scrollPane.setViewportView(table);
 		
 		JLabel lblViewBooks = new JLabel("View Books");
@@ -68,19 +83,9 @@ public class ViewBooks extends JFrame {
 		lblGenre.setBounds(10, 58, 48, 14);
 		contentPane.add(lblGenre);
 		
-		tf_genre = new JTextField();
-		tf_genre.setBounds(45, 55, 96, 20);
-		contentPane.add(tf_genre);
-		tf_genre.setColumns(10);
-		
 		JLabel lblAvailability = new JLabel("Availability");
 		lblAvailability.setBounds(185, 58, 63, 14);
 		contentPane.add(lblAvailability);
-		
-		tf_availability = new JTextField();
-		tf_availability.setBounds(247, 55, 96, 20);
-		contentPane.add(tf_availability);
-		tf_availability.setColumns(10);
 		
 		JLabel lblIsbn = new JLabel("ISBN");
 		lblIsbn.setBounds(383, 58, 48, 14);
@@ -92,8 +97,38 @@ public class ViewBooks extends JFrame {
 		tf_ISBN.setColumns(10);
 		
 		JButton btnRefresh = new JButton("Refresh");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					table = new JTable(BookServices.viewBooks());
+				} catch (SQLException e2) {
+					e2.printStackTrace();
+				}
+				
+			}
+		});
 		btnRefresh.setBounds(553, 54, 89, 23);
 		contentPane.add(btnRefresh);
-	}
+		
+		JButton btnClose = new JButton("Close");
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnClose.setBounds(20, 402, 89, 23);
+		contentPane.add(btnClose);
+		
+		String[] statuses = { "", "AVAILABLE","ISSUED"};
+		final JComboBox<String> comboBox_status = new JComboBox(statuses);
+		comboBox_status.setBounds(253, 54, 96, 22);
+		contentPane.add(comboBox_status);
+		
+		String[] genre = { "", "Romance","Fiction","Crime","Mystry","Non-Fiction","Other"};
+		final JComboBox<String> comboBox_genre = new JComboBox(genre);
+		comboBox_genre.setBounds(49, 54, 89, 22);
+		contentPane.add(comboBox_genre);
+		
 
+	}
 }
