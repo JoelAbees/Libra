@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.prefs.Preferences;
 import java.awt.event.ActionEvent;
 
 public class LibrarianSection extends JFrame {
@@ -121,6 +122,8 @@ public class LibrarianSection extends JFrame {
 				dispose();
 				FirstPage firstPage = new FirstPage();
 				firstPage.setVisible(true);
+				Preferences prefs = Preferences.userNodeForPackage(com.lms.ui.librarian.LibrarianLogin.class);
+				prefs.remove("userId");
 			}
 		});
 		btnLogOut.setFont(new Font("Tahoma", Font.PLAIN, 13));

@@ -203,4 +203,23 @@ public class UserTools {
     return -1;
     }
 
+	public static String checkMembership(int userID) {
+		String checkMembershipQuery = "SELECT MEMBERSHIP FROM USER_MEMBERSHIP WHERE USER_ID = ?";
+		try (Connection conn = SQLConnection.dbConnector();
+        		PreparedStatement pstmt = conn.prepareStatement(checkMembershipQuery);) {
+			
+			pstmt.setInt(1, userID);
+			
+			try (ResultSet rs = pstmt.executeQuery()) {
+				
+				if (rs.next() == false) {return "NO SUCH USER";}
+	            else {return rs.getString("MEMBERSHIP");}
+				
+            } catch (SQLException e) {JOptionPane.showMessageDialog(null, e);}		
+		} catch (SQLException e) {JOptionPane.showMessageDialog(null, e);}
+		
+		
+		return null;
+	}
+
 }

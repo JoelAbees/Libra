@@ -9,10 +9,17 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.lms.service.BookServices;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
 
 public class ViewIssuedBooks extends JFrame {
 
@@ -39,8 +46,8 @@ public class ViewIssuedBooks extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewIssuedBooks() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 588, 449);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 588, 485);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
@@ -56,8 +63,22 @@ public class ViewIssuedBooks extends JFrame {
 		scrollPane.setBounds(23, 81, 539, 318);
 		contentPane.add(scrollPane);
 		
-		table = new JTable();
+		try {
+			table = new JTable(BookServices.viewIssuedBooks());
+			//table.add(BookServices.viewBooks());
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		scrollPane.setViewportView(table);
+		
+		JButton btnClose = new JButton("Close");
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnClose.setBounds(23, 412, 89, 23);
+		contentPane.add(btnClose);
 	}
-
 }

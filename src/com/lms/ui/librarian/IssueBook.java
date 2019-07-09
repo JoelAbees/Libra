@@ -9,10 +9,18 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.lms.common.Utility;
+import com.lms.service.TransactionServices;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class IssueBook extends JFrame {
 
@@ -74,13 +82,52 @@ public class IssueBook extends JFrame {
 		tf_UserID.setColumns(10);
 		
 		JButton btnIssueBook = new JButton("Issue Book");
+		btnIssueBook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String bookID = tf_bookID.getText();
+				String userID = tf_UserID.getText();
+				do_IssueBooks(bookID,userID);
+			}
+		});
 		btnIssueBook.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnIssueBook.setBounds(164, 183, 112, 35);
 		contentPane.add(btnIssueBook);
 		
 		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				LibrarianSection librarianSection = new LibrarianSection();
+				librarianSection.setVisible(true);
+			}
+		});
 		btnBack.setBounds(10, 227, 89, 23);
 		contentPane.add(btnBack);
+	}
+	
+	private void do_IssueBooks(String strBookID, String strUserID) {
+
+		String errorMessage = null;
+		
+		if(Utility.validateInput(strBookID, strUserID)) {
+			int bookID = Utility.validateID(strBookID);
+			int userID = Utility.validateID(strUserID);
+			
+			if (bookID != -1 && userID != -1) {
+				
+				String IssueBookStatus = TransactionServices.issueBooks(bookID , userID);
+				
+				if (IssueBookStatus.equals("Success")){
+					JOptionPane.showMessageDialog(null, "Succesfully Issued Book");
+					
+				}else {errorMessage = IssueBookStatus;}	
+			}else {errorMessage = "please enter valid IDs";}
+		}else {errorMessage = "please fill all details";}
+		
+		if(errorMessage != null && !errorMessage.isEmpty())  {
+			JOptionPane.showMessageDialog(getContentPane(), errorMessage, "", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
 	}
 
 }

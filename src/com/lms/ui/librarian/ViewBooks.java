@@ -53,6 +53,7 @@ public class ViewBooks extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewBooks() {
+		//String genre, status, isbn;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 668, 467);
 		contentPane = new JPanel();
@@ -66,7 +67,7 @@ public class ViewBooks extends JFrame {
 		contentPane.add(scrollPane);
 		
 		try {
-			table = new JTable(BookServices.viewBooks());
+			table = new JTable(BookServices.viewBooks("","",""));
 			//table.add(BookServices.viewBooks());
 			
 		} catch (SQLException e) {
@@ -96,11 +97,27 @@ public class ViewBooks extends JFrame {
 		contentPane.add(tf_ISBN);
 		tf_ISBN.setColumns(10);
 		
+		String[] statuses = { "", "AVAILABLE","ISSUED"};
+		final JComboBox<String> comboBox_status = new JComboBox(statuses);
+		comboBox_status.setBounds(253, 54, 96, 22);
+		contentPane.add(comboBox_status);
+		
+		String[] genres = { "", "Romance","Fiction","Crime","Mystry","Non-Fiction","Other"};
+		final JComboBox<String> comboBox_genre = new JComboBox(genres);
+		comboBox_genre.setBounds(49, 54, 89, 22);
+		contentPane.add(comboBox_genre);
+		
 		JButton btnRefresh = new JButton("Refresh");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					table = new JTable(BookServices.viewBooks());
+					
+					String genre = comboBox_genre.getItemAt(comboBox_genre.getSelectedIndex());
+					String status = comboBox_status.getItemAt(comboBox_status.getSelectedIndex());
+					String isbn = tf_ISBN.getText();
+					
+					table = new JTable(BookServices.viewBooks(genre,status,isbn));
+					scrollPane.setViewportView(table);
 				} catch (SQLException e2) {
 					e2.printStackTrace();
 				}
@@ -119,15 +136,7 @@ public class ViewBooks extends JFrame {
 		btnClose.setBounds(20, 402, 89, 23);
 		contentPane.add(btnClose);
 		
-		String[] statuses = { "", "AVAILABLE","ISSUED"};
-		final JComboBox<String> comboBox_status = new JComboBox(statuses);
-		comboBox_status.setBounds(253, 54, 96, 22);
-		contentPane.add(comboBox_status);
-		
-		String[] genre = { "", "Romance","Fiction","Crime","Mystry","Non-Fiction","Other"};
-		final JComboBox<String> comboBox_genre = new JComboBox(genre);
-		comboBox_genre.setBounds(49, 54, 89, 22);
-		contentPane.add(comboBox_genre);
+
 		
 
 	}

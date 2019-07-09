@@ -106,7 +106,8 @@ public class LibrarianLogin extends JFrame {
 		if(Utility.validateInput(userName,password)) {
 			int librarianID = UserTools.userLogin(userName,password);
 			if (librarianID != -1) {
-				Preferences prefs = Preferences.userNodeForPackage(this.getClass());
+				System.out.println(this.getClass().getName());
+				Preferences prefs = Preferences.userNodeForPackage(com.lms.ui.librarian.LibrarianLogin.class);
 				prefs.putInt("userId", librarianID);
 				return true;
 			}

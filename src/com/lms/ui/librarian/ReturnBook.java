@@ -9,16 +9,24 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.lms.common.Utility;
+import com.lms.service.TransactionServices;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ReturnBook extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField tf_bookID;
+	private JTextField tf_userID;
 
 	/**
 	 * Launch the application.
@@ -63,24 +71,64 @@ public class ReturnBook extends JFrame {
 		lblUserId.setBounds(124, 131, 48, 14);
 		contentPane.add(lblUserId);
 		
-		textField = new JTextField();
-		textField.setBounds(221, 73, 96, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		tf_bookID = new JTextField();
+		tf_bookID.setBounds(221, 73, 96, 20);
+		contentPane.add(tf_bookID);
+		tf_bookID.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(221, 129, 96, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		tf_userID = new JTextField();
+		tf_userID.setBounds(221, 129, 96, 20);
+		contentPane.add(tf_userID);
+		tf_userID.setColumns(10);
 		
 		JButton btnReturnBook = new JButton("Return Book");
+		btnReturnBook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String bookID = tf_bookID.getText();
+				String userID = tf_userID.getText();
+				do_ReturnBook(bookID,userID);
+			}
+		});
 		btnReturnBook.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnReturnBook.setBounds(163, 187, 127, 36);
 		contentPane.add(btnReturnBook);
 		
 		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				LibrarianSection librarianSection = new LibrarianSection();
+				librarianSection.setVisible(true);
+			}
+		});
 		btnBack.setBounds(10, 252, 89, 23);
 		contentPane.add(btnBack);
+	}
+	
+	private void do_ReturnBook(String strBookID, String strUserID) {
+
+		String errorMessage = null;
+		
+		if(Utility.validateInput(strBookID, strUserID)) {
+			int bookID = Utility.validateID(strBookID);
+			int userID = Utility.validateID(strUserID);
+			
+			if (bookID != -1 && userID != -1) {
+				
+				String IssueBookStatus = TransactionServices.returnBooks(bookID , userID);
+				
+				if (IssueBookStatus.equals("Success")){
+					JOptionPane.showMessageDialog(null, "Succesfully Issued Book");
+					
+				}else {errorMessage = IssueBookStatus;}	
+				
+			}else {errorMessage = "please enter valid IDs";}
+		}else {errorMessage = "please fill all details";}
+		
+		if(errorMessage != null && !errorMessage.isEmpty())  {
+			JOptionPane.showMessageDialog(getContentPane(), errorMessage, "", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
 	}
 
 }

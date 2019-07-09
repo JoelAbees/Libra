@@ -1,5 +1,8 @@
 package com.lms.common;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Utility {
 	
 	//Method that takes variable number of arguments and check if they are null/empty
@@ -22,5 +25,12 @@ public class Utility {
 		catch (NumberFormatException ex) {
 			return -1;
 		}
+	}
+	
+	public static String formatDate(Date date) {
+		String pattern = "dd-MM-yyyy";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		return simpleDateFormat.format(new Date());
+	
 	}
 }
