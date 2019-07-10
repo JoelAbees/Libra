@@ -1,0 +1,2 @@
+Dname=org.sqlite.JDBC
+URL=jdbc:sqlite:LibraryManagaement.db

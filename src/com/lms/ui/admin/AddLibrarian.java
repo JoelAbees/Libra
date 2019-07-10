@@ -3,7 +3,6 @@
 
 package com.lms.ui.admin;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -18,7 +17,7 @@ import javax.swing.JButton;
 
 import com.lms.common.Utility;
 import com.lms.model.User;
-import com.lms.service.UserTools;
+import com.lms.service.UserServices;
 //import com.lms.ui.main.FirstPage;
 
 public class AddLibrarian extends JFrame {
@@ -140,14 +139,14 @@ public class AddLibrarian extends JFrame {
 		
 		String errorMessage = null;
 		User librarian = new User();
-		UserTools userTool =  new UserTools();
+		UserServices userTool =  new UserServices();
 		
 		//Validate if all input fields are filled
 		boolean  validateInputResult = Utility.validateInput(tf_librarianName.getText(),tf_librarianUserName.getText(),tf_librarianPassword.getText(),tf_librarianEmail.getText(),tf_librarianPhoneNumber.getText());
 		
 		
 		if (validateInputResult) {
-			if(UserTools.isUsernameUnique(tf_librarianUserName.getText())) {
+			if(UserServices.isUsernameUnique(tf_librarianUserName.getText())) {
 			//Add Librarian to DB
 			librarian.setDetails(tf_librarianName.getText(),tf_librarianUserName.getText(),tf_librarianPassword.getText(),tf_librarianEmail.getText(),tf_librarianPhoneNumber.getText(), "LIBRARIAN");
 			int i = userTool.addUser(librarian); 

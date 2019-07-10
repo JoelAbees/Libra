@@ -35,8 +35,5 @@ public class User {
 	public String getPhoneNumber() {return phoneNumber;}
 	public String getType() {return type;}
 	
-	public String toString() {
-		return "User [userID=" + userID + ", name=" + name + ", userName=" + userName + ", password=" + password + ", email="
-				+ email + ", phoneNumber=" + phoneNumber + ", type=" + type + "]";
-	}
+
 }

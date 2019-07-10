@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.lms.common.Utility;
-import com.lms.service.UserTools;
+import com.lms.service.UserServices;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -100,7 +100,7 @@ public class DeleteLibrarian extends JFrame {
 		if(librarianID != -1) {
 			
 			//Check is such user Exist
-			String librarianName = UserTools.getNameFromUserID(librarianID , "LIBRARIAN");
+			String librarianName = UserServices.getNameFromUserID(librarianID , "LIBRARIAN");
 			
 			if(librarianName.equals("ERROR NO USER")) {
 				errorMessage = "This user doesn't exist";
@@ -113,7 +113,7 @@ public class DeleteLibrarian extends JFrame {
 				if(confirmDelete == 0) {
 					
 					//Delete user from DB
-					int postDeleteConfirmation = UserTools.deleteUser(librarianID,"LIBRARIAN");	
+					int postDeleteConfirmation = UserServices.deleteUser(librarianID,"LIBRARIAN");	
 					if (postDeleteConfirmation == 1) {
 						JOptionPane.showMessageDialog(null, "Succesfully Deleted user");
 						return;

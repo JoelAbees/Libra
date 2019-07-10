@@ -31,9 +31,6 @@ public class Transaction {
 	public String getIssueDate() {return issueDate;}
 	public String getreturnDate() {return returnDate;}
 	
-	public String toString() {
-		return "Transaction [transactionID=" + transactionID + ", bookID=" + bookID + ", librarianID=" + librarianID + 
-				", userID=" + userID + ", issueDate=" + issueDate + ", returnDate=" + returnDate + "]";
-	}
+
 	
 }

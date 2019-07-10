@@ -3,16 +3,13 @@
 
 package com.lms.ui.librarian;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+//import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.lms.service.BookServices;
-import com.lms.service.UserTools;
-
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -23,7 +20,6 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JList;
 import javax.swing.JComboBox;
 
 public class ViewBooks extends JFrame {
@@ -35,7 +31,7 @@ public class ViewBooks extends JFrame {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -47,7 +43,7 @@ public class ViewBooks extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -67,9 +63,10 @@ public class ViewBooks extends JFrame {
 		contentPane.add(scrollPane);
 		
 		try {
-			table = new JTable(BookServices.viewBooks("","",""));
-			//table.add(BookServices.viewBooks());
 			
+			//Primary View Books method from Book Services 
+			table = new JTable(BookServices.viewBooks("","",""));
+						
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -97,13 +94,15 @@ public class ViewBooks extends JFrame {
 		contentPane.add(tf_ISBN);
 		tf_ISBN.setColumns(10);
 		
+		//Status Drop Down
 		String[] statuses = { "", "AVAILABLE","ISSUED"};
-		final JComboBox<String> comboBox_status = new JComboBox(statuses);
+		final JComboBox<String> comboBox_status = new JComboBox<String>(statuses);
 		comboBox_status.setBounds(253, 54, 96, 22);
 		contentPane.add(comboBox_status);
 		
+		//Genre Drop Down
 		String[] genres = { "", "Romance","Fiction","Crime","Mystry","Non-Fiction","Other"};
-		final JComboBox<String> comboBox_genre = new JComboBox(genres);
+		final JComboBox<String> comboBox_genre = new JComboBox<String>(genres);
 		comboBox_genre.setBounds(49, 54, 89, 22);
 		contentPane.add(comboBox_genre);
 		
@@ -116,6 +115,7 @@ public class ViewBooks extends JFrame {
 					String status = comboBox_status.getItemAt(comboBox_status.getSelectedIndex());
 					String isbn = tf_ISBN.getText();
 					
+					//Primary View Books method from Book Services 
 					table = new JTable(BookServices.viewBooks(genre,status,isbn));
 					scrollPane.setViewportView(table);
 				} catch (SQLException e2) {

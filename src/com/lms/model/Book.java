@@ -38,9 +38,6 @@ public class Book {
 	public String getPrice() {return price;}
 	public String getGenre() {return genre;}
 	
-	public String toString() {
-		return "Book [" + "ISBN=" + ISBN +  ", title=" + title + ", author="
-				+ author + ", publisher=" + publisher + ", price=" + price + ", genre=" + genre +"]";
-	}
+
 	
 }

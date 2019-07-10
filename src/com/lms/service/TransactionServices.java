@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.prefs.Preferences;
 
 import javax.swing.JOptionPane;
@@ -19,29 +18,36 @@ import com.lms.model.Transaction;
 
 public class TransactionServices {
 
+	//Primary method to issue Books
 	public static String issueBooks(int bookID, int userID) {
 		
+		//Proceed further only if book is in Available status
 		if(BookServices.bookStatus(bookID, "AVAILABLE")) {
-			String userMembership = UserTools.checkMembership(userID);
+			
+			//Check if user exist and retrieve his Membership type (GOLD/REGULAR)
+			String userMembership = UserServices.checkMembership(userID);
 			if (!userMembership.equals("NO SUCH USER")) {
+				
+				//Proceed further only if Active Book count is less than prescribed for membership
 				if(isUserEligible(userID, userMembership)) {
 					
 					int transactionID = getLastTransactionID() + 1;
-					System.out.println("transactionID: " + transactionID);
 					if (transactionID != 0) {
 					
-						//Transaction transaction = new Transaction();
-						
+						//Retrieve ID of Librarian currently Logged in 						
 						Preferences prefs = Preferences.userNodeForPackage(com.lms.ui.librarian.LibrarianLogin.class);
 						int librarianID = prefs.getInt("userId", 0);
+						
+						//Format Issue Date in dd-MM-YYYY format
 						String issueDate = Utility.formatDate(Calendar.getInstance().getTime());
 						
-						
+						//Transaction Object initiation and Setting attributes
 						Transaction transaction = new Transaction();
-						int addTransactionStatus = addTransaction(transaction);
 						transaction.setDetails(transactionID, bookID , librarianID , userID , issueDate );
 						
+						//Proceed further if Transaction is recorded
 						if(addTransaction(transaction) == 1) {
+							//Change book status to Issued post transaction.
 							if(BookServices.changeBookStatus("ISSUED", bookID, transactionID) == 1) {
 								return "Success";
 							}
@@ -55,7 +61,8 @@ public class TransactionServices {
 		return null;
 		
 	}
-		
+	
+	//Method to check if user is within his borrowing limit based on membership. 
 	private static boolean isUserEligible(int userID, String userMembership) {
 		
 		int maximumBookCount;
@@ -65,7 +72,7 @@ public class TransactionServices {
 		
 		
 		String checkActiveBookCountQuery = "SELECT COUNT(*) FROM TRANSACTIONS WHERE USER_ID = ? AND RETURN_DATE IS NULL";
-		try (Connection conn = SQLConnection.dbConnector();
+		try (Connection conn = SQLConnection.getDBConnection();
         		PreparedStatement pstmt = conn.prepareStatement(checkActiveBookCountQuery);) {
         	
             pstmt.setInt(1, userID);
@@ -85,9 +92,10 @@ public class TransactionServices {
 		return false;
 	}
 	
+	//Method to get ID of last transaction in TRANSACTIONS table
 	private static int getLastTransactionID() {
 		String getLastTransactionIDQuery = "SELECT MAX(TRANSACTION_ID) FROM TRANSACTIONS";
-        try (Connection conn = SQLConnection.dbConnector(); 
+        try (Connection conn = SQLConnection.getDBConnection(); 
         		Statement stmt = conn.createStatement(); 
         		ResultSet rs = stmt.executeQuery(getLastTransactionIDQuery)) {
 
@@ -101,9 +109,10 @@ public class TransactionServices {
         return -1;
 	}
 	
+	//Method receives Transaction object and inserts the attributes to TRANSACTIONS table
 	private static int addTransaction(Transaction transactionObj) {
 		String insertTransactionDetails = "INSERT INTO TRANSACTIONS VALUES (?,?,?,?,?,?)";
-        try (Connection conn = SQLConnection.dbConnector(); 
+        try (Connection conn = SQLConnection.getDBConnection(); 
         		PreparedStatement pstmt = conn.prepareStatement(insertTransactionDetails);) {
 
             pstmt.setInt(1, transactionObj.getTransactionID());
@@ -120,12 +129,13 @@ public class TransactionServices {
         }
         return -1;
 	}
-
+	
+	//Method to delete Transaction in case of Roll Back
 	public static void deleteTransaction(int transactionID) {
 		
         String deleteTransactionQuery = "DELETE FROM TRANSACTION WHERE TRANSACTION_ID = ?";
         
-        try (Connection conn = SQLConnection.dbConnector(); 
+        try (Connection conn = SQLConnection.getDBConnection(); 
         		PreparedStatement pstmt = conn.prepareStatement(deleteTransactionQuery);) {
 
             pstmt.setInt(1, transactionID);
@@ -139,12 +149,20 @@ public class TransactionServices {
 
 	}
 
+	//Primary method to return Books
 	public static String returnBooks(int bookID, int userID) {
+		
+		//Proceed further only if Book Status is issued
 		if(BookServices.bookStatus(bookID, "ISSUED")) {
 			
+			//Get transaction ID recorded when Book was issued
 			int transactionID = getFirstTransactionID(bookID,userID);
 			if (transactionID != -1) {
+				
+				//Update transaction with Return Date
 				if(updateTransaction(transactionID) == 1) {
+					
+					//Change status of Book to Available
 					if(BookServices.changeBookStatus("AVAILABLE", bookID, transactionID) == 1) {
 						return "Success";
 					}
@@ -154,9 +172,10 @@ public class TransactionServices {
 		return null;
 	}
 
+	//Method to Update transaction with return date
 	private static int updateTransaction(int transactionID) {
 		String updateTransactionQuery = "UPDATE TRANSACTIONS SET RETURN_DATE = ? WHERE TRANSACTION_ID = ?";
-        try (Connection conn = SQLConnection.dbConnector(); 
+        try (Connection conn = SQLConnection.getDBConnection(); 
         		PreparedStatement pstmt = conn.prepareStatement(updateTransactionQuery);) {
 
             pstmt.setString(1, Utility.formatDate(Calendar.getInstance().getTime()));
@@ -168,9 +187,10 @@ public class TransactionServices {
         return -1;
 	}
 	
+	//Method to retrieve transaction ID recorded at Issue of Book
 	private static int getFirstTransactionID(int bookID, int userID) {
 		String getTransactionIDQuery = "SELECT TRANSACTION_ID FROM TRANSACTIONS WHERE BOOK_ID = ? AND USER_ID = ? AND RETURN_DATE IS NULL";
-		try (Connection conn = SQLConnection.dbConnector(); 
+		try (Connection conn = SQLConnection.getDBConnection(); 
         		PreparedStatement pstmt = conn.prepareStatement(getTransactionIDQuery);) {
 			pstmt.setInt(1, bookID);
             pstmt.setInt(2, userID);

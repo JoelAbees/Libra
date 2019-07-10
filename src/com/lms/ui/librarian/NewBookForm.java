@@ -3,8 +3,7 @@
 
 package com.lms.ui.librarian;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+//import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,18 +11,12 @@ import javax.swing.border.EmptyBorder;
 
 import com.lms.common.Utility;
 import com.lms.model.Book;
-import com.lms.model.User;
 import com.lms.service.BookServices;
-import com.lms.service.UserTools;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import javax.swing.JComboBox;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JTextField;
-import java.awt.Button;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
@@ -41,7 +34,7 @@ public class NewBookForm extends JFrame {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -53,7 +46,7 @@ public class NewBookForm extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -142,12 +135,16 @@ public class NewBookForm extends JFrame {
 		Book book = new Book();
 		BookServices bookServices =  new BookServices();
 		
+		
+		//Check if all fields have Input text from the user
 		boolean  validateInputResult = Utility.validateInput(tf_bookTitle.getText(), tf_Author.getText(), tf_Publisher.getText() , tf_price.getText(), tf_genre.getText());
 		if (validateInputResult) {
 			
+			//Set attributes of book object
 			book.setDetails(isbn, tf_bookTitle.getText(), tf_Author.getText(), tf_Publisher.getText() , tf_price.getText(), tf_genre.getText());
-			int bookDetailCount = bookServices.addBookDetails(book);
 			
+			//Add Book Details and Books.
+			int bookDetailCount = bookServices.addBookDetails(book);
 			if (bookDetailCount == 1) { 
 				JOptionPane.showMessageDialog(null, "Succesfully added book details");
 				int bookCount = bookServices.addBook(isbn,quantity);

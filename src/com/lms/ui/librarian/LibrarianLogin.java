@@ -3,17 +3,14 @@
 
 package com.lms.ui.librarian;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+//import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.lms.common.Utility;
-import com.lms.service.UserTools;
-import com.lms.ui.admin.AdminLogin;
-
+import com.lms.service.UserServices;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -34,7 +31,7 @@ public class LibrarianLogin extends JFrame {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -46,7 +43,7 @@ public class LibrarianLogin extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -103,10 +100,12 @@ public class LibrarianLogin extends JFrame {
 		String userName = tf_librarianUserName.getText();
 		String password = passwordField.getText();
 		
+		//Check if user has provided valid input
 		if(Utility.validateInput(userName,password)) {
-			int librarianID = UserTools.userLogin(userName,password);
+			//get Librarian ID from username and password
+			int librarianID = UserServices.userLogin(userName,password);
 			if (librarianID != -1) {
-				System.out.println(this.getClass().getName());
+				//Store Librarian ID in preference API for future reference until logout.
 				Preferences prefs = Preferences.userNodeForPackage(com.lms.ui.librarian.LibrarianLogin.class);
 				prefs.putInt("userId", librarianID);
 				return true;

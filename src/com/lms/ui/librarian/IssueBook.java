@@ -3,19 +3,14 @@
 
 package com.lms.ui.librarian;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
+//import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import com.lms.common.Utility;
 import com.lms.service.TransactionServices;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -30,7 +25,7 @@ public class IssueBook extends JFrame {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -42,7 +37,7 @@ public class IssueBook extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -109,12 +104,14 @@ public class IssueBook extends JFrame {
 
 		String errorMessage = null;
 		
+		//Check if user has entered input
 		if(Utility.validateInput(strBookID, strUserID)) {
+			//Convert input texts to integers and validate
 			int bookID = Utility.validateID(strBookID);
 			int userID = Utility.validateID(strUserID);
 			
 			if (bookID != -1 && userID != -1) {
-				
+				//Issue book primary method in service class
 				String IssueBookStatus = TransactionServices.issueBooks(bookID , userID);
 				
 				if (IssueBookStatus.equals("Success")){

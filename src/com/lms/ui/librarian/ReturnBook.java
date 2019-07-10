@@ -3,8 +3,7 @@
 
 package com.lms.ui.librarian;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+//import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -30,7 +29,7 @@ public class ReturnBook extends JFrame {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -42,7 +41,7 @@ public class ReturnBook extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -108,17 +107,18 @@ public class ReturnBook extends JFrame {
 	private void do_ReturnBook(String strBookID, String strUserID) {
 
 		String errorMessage = null;
-		
+		// Validate user Input and convert text to integer
 		if(Utility.validateInput(strBookID, strUserID)) {
 			int bookID = Utility.validateID(strBookID);
 			int userID = Utility.validateID(strUserID);
 			
 			if (bookID != -1 && userID != -1) {
 				
+				//primary method to return book from transaction class
 				String IssueBookStatus = TransactionServices.returnBooks(bookID , userID);
 				
 				if (IssueBookStatus.equals("Success")){
-					JOptionPane.showMessageDialog(null, "Succesfully Issued Book");
+					JOptionPane.showMessageDialog(null, "Succesfully Returned Book");
 					
 				}else {errorMessage = IssueBookStatus;}	
 				

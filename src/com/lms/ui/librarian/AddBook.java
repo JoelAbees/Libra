@@ -4,9 +4,7 @@
 
 package com.lms.ui.librarian;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
+//import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -31,7 +29,7 @@ public class AddBook extends JFrame {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -43,7 +41,7 @@ public class AddBook extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -114,23 +112,26 @@ public class AddBook extends JFrame {
 			int bookQuantityInt = Utility.validateID(bookQuantity);
 			if(bookQuantityInt != -1) {
 				
+				//Check if Book Details are present
 				int isIsbnPresent = BookServices.isIsbnPresent(isbn);
 				if (isIsbnPresent == 1) {
 					
+					//Book details previously present. Add books to DB referencing ISBN
 					BookServices bookServices =  new BookServices();
 					int bookCount = bookServices.addBook(isbn,bookQuantityInt);
 
 					if (bookCount != 0) {
 						JOptionPane.showMessageDialog(null, "Succesfully added " + bookCount + " book details");
-						dispose();
+						
 					}else{errorMessage =  "No books were added";}
 					
 				}else if (isIsbnPresent == 0) {
+					//First registration of a new Book
 					NewBookForm newBookForm = new NewBookForm(isbn,bookQuantityInt);
 					newBookForm.setVisible(true);
 					
 					
-				}else if (isIsbnPresent == -1) {errorMessage = "Please ahndle Exception, contact Admin";}
+				}else if (isIsbnPresent == -1) {errorMessage = "Please handle Exception, contact Admin";}
 			}else {errorMessage = "please enter a valid quantity";}
 		}else {errorMessage = "please fill all details";}
 		

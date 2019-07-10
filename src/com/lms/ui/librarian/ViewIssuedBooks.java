@@ -3,8 +3,7 @@
 
 package com.lms.ui.librarian;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+//import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,7 +27,7 @@ public class ViewIssuedBooks extends JFrame {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -40,7 +39,7 @@ public class ViewIssuedBooks extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -64,9 +63,9 @@ public class ViewIssuedBooks extends JFrame {
 		contentPane.add(scrollPane);
 		
 		try {
+			//Primary View Issued Books method from Book Services 
 			table = new JTable(BookServices.viewIssuedBooks());
-			//table.add(BookServices.viewBooks());
-			
+						
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

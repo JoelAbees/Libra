@@ -4,14 +4,12 @@
 
 package com.lms.ui.librarian;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+//import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.lms.ui.admin.AddLibrarian;
 import com.lms.ui.main.FirstPage;
 
 import javax.swing.JLabel;
@@ -27,7 +25,7 @@ public class LibrarianSection extends JFrame {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -39,7 +37,7 @@ public class LibrarianSection extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -122,6 +120,7 @@ public class LibrarianSection extends JFrame {
 				dispose();
 				FirstPage firstPage = new FirstPage();
 				firstPage.setVisible(true);
+				//Remove Librarian ID from preference API after log out
 				Preferences prefs = Preferences.userNodeForPackage(com.lms.ui.librarian.LibrarianLogin.class);
 				prefs.remove("userId");
 			}

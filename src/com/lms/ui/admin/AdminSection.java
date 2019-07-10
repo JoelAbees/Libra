@@ -14,6 +14,8 @@ import javax.swing.border.EmptyBorder;
 import com.lms.ui.main.FirstPage;
 
 import javax.swing.JLabel;
+
+//import java.awt.EventQueue;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;

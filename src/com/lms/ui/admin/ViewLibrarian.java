@@ -18,7 +18,7 @@ import javax.swing.border.EmptyBorder;
 //import javax.swing.table.DefaultTableModel;
 
 //import com.lms.db.util.SQLConnection;
-import com.lms.service.UserTools;
+import com.lms.service.UserServices;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -64,7 +64,7 @@ public class ViewLibrarian extends JFrame {
 		contentPane.add(scrollPane);
 		
 		try {
-			table = new JTable(UserTools.viewUsers("LIBRARIAN"));
+			table = new JTable(UserServices.viewUsers("LIBRARIAN"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
