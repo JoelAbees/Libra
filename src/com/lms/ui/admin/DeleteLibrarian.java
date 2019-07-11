@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.lms.common.Utility;
+import com.lms.model.Admin;
 import com.lms.service.UserServices;
 
 import javax.swing.JLabel;
@@ -72,9 +73,13 @@ public class DeleteLibrarian extends JFrame {
 		
 		JButton btnDeleteLlibrarian = new JButton("Delete lLibrarian");
 		btnDeleteLlibrarian.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
-				do_deleteLibrarian();
+			public void actionPerformed(ActionEvent e) {
+				
+				String deleteLibrarianStatus = Admin.deleteLibrarian(tf_LibrarianID.getText());
+				if(!deleteLibrarianStatus.equals("Success")) {
+					JOptionPane.showMessageDialog(getContentPane(), deleteLibrarianStatus, "", JOptionPane.WARNING_MESSAGE);
 				}
+			}
 		});
 		btnDeleteLlibrarian.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnDeleteLlibrarian.setBounds(154, 153, 133, 38);
@@ -92,42 +97,5 @@ public class DeleteLibrarian extends JFrame {
 		contentPane.add(btnBack);
 	}
 	
-	private void do_deleteLibrarian() {
-		String errorMessage = null;
-		
-		//validate the input to check if integer and return value in int format
-		int librarianID = Utility.validateID(tf_LibrarianID.getText());
-		if(librarianID != -1) {
-			
-			//Check is such user Exist
-			String librarianName = UserServices.getNameFromUserID(librarianID , "LIBRARIAN");
-			
-			if(librarianName.equals("ERROR NO USER")) {
-				errorMessage = "This user doesn't exist";
-			}else if(librarianName.equals("ERROR")){
-				errorMessage = "Unable to delete user";
-			}else {
-				
-				//Pre-delete confirmation. Returns 0 if user selects yes. 
-				int confirmDelete = JOptionPane.showConfirmDialog(null, "Do you really want to delete " + librarianName + "?" ,"Delete", JOptionPane.YES_NO_OPTION);
-				if(confirmDelete == 0) {
-					
-					//Delete user from DB
-					int postDeleteConfirmation = UserServices.deleteUser(librarianID,"LIBRARIAN");	
-					if (postDeleteConfirmation == 1) {
-						JOptionPane.showMessageDialog(null, "Succesfully Deleted user");
-						return;
-					} else {errorMessage = "Unable to delete user";}
-				}
-			}		
-		}else {	errorMessage = "Please enter valid userID";}
-		
-		if(errorMessage != null && !errorMessage.isEmpty())  {
-			JOptionPane.showMessageDialog(getContentPane(), errorMessage, "", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
-
-	}
-
+	
 }

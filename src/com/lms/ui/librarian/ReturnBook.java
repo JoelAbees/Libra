@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.lms.common.Utility;
+import com.lms.model.Librarian;
 import com.lms.service.TransactionServices;
 
 import javax.swing.JLabel;
@@ -85,7 +86,10 @@ public class ReturnBook extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String bookID = tf_bookID.getText();
 				String userID = tf_userID.getText();
-				do_ReturnBook(bookID,userID);
+				String returnBookStatus = Librarian.returnBook(bookID,userID);
+				if(!returnBookStatus.equals("Success")) {
+					JOptionPane.showMessageDialog(getContentPane(), returnBookStatus, "", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		btnReturnBook.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -104,31 +108,6 @@ public class ReturnBook extends JFrame {
 		contentPane.add(btnBack);
 	}
 	
-	private void do_ReturnBook(String strBookID, String strUserID) {
-
-		String errorMessage = null;
-		// Validate user Input and convert text to integer
-		if(Utility.validateInput(strBookID, strUserID)) {
-			int bookID = Utility.validateID(strBookID);
-			int userID = Utility.validateID(strUserID);
-			
-			if (bookID != -1 && userID != -1) {
-				
-				//primary method to return book from transaction class
-				String IssueBookStatus = TransactionServices.returnBooks(bookID , userID);
-				
-				if (IssueBookStatus.equals("Success")){
-					JOptionPane.showMessageDialog(null, "Succesfully Returned Book");
-					
-				}else {errorMessage = IssueBookStatus;}	
-				
-			}else {errorMessage = "please enter valid IDs";}
-		}else {errorMessage = "please fill all details";}
-		
-		if(errorMessage != null && !errorMessage.isEmpty())  {
-			JOptionPane.showMessageDialog(getContentPane(), errorMessage, "", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-	}
+	
 
 }

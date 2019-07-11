@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.lms.common.Utility;
+import com.lms.model.Librarian;
 import com.lms.service.BookServices;
 
 import javax.swing.JLabel;
@@ -83,7 +84,11 @@ public class AddBook extends JFrame {
 		JButton btnAddBooks = new JButton("Add Books");
 		btnAddBooks.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				do_addBook();
+							
+				String addBookStatus = Librarian.addBook(tf_ISBN.getText(),tf_quantity.getText());
+				if(!addBookStatus.equals("Success")){
+					JOptionPane.showMessageDialog(getContentPane(), addBookStatus, "", JOptionPane.WARNING_MESSAGE);
+				};
 			}
 		});
 		btnAddBooks.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -102,43 +107,4 @@ public class AddBook extends JFrame {
 		contentPane.add(btnBack);
 	}
 	
-	private void do_addBook() {
-		String errorMessage = null;
-		String isbn = tf_ISBN.getText();
-		String bookQuantity = tf_quantity.getText();
-		
-		//boolean  validateInputResult = Utility.validateInput(isbn,bookQuantity);
-		if(Utility.validateInput(isbn,bookQuantity)) {
-			int bookQuantityInt = Utility.validateID(bookQuantity);
-			if(bookQuantityInt != -1) {
-				
-				//Check if Book Details are present
-				int isIsbnPresent = BookServices.isIsbnPresent(isbn);
-				if (isIsbnPresent == 1) {
-					
-					//Book details previously present. Add books to DB referencing ISBN
-					BookServices bookServices =  new BookServices();
-					int bookCount = bookServices.addBook(isbn,bookQuantityInt);
-
-					if (bookCount != 0) {
-						JOptionPane.showMessageDialog(null, "Succesfully added " + bookCount + " book details");
-						
-					}else{errorMessage =  "No books were added";}
-					
-				}else if (isIsbnPresent == 0) {
-					//First registration of a new Book
-					NewBookForm newBookForm = new NewBookForm(isbn,bookQuantityInt);
-					newBookForm.setVisible(true);
-					
-					
-				}else if (isIsbnPresent == -1) {errorMessage = "Please handle Exception, contact Admin";}
-			}else {errorMessage = "please enter a valid quantity";}
-		}else {errorMessage = "please fill all details";}
-		
-		if(errorMessage != null && !errorMessage.isEmpty())  {
-			JOptionPane.showMessageDialog(getContentPane(), errorMessage, "", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-	}
-
 }

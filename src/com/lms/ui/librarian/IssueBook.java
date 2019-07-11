@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.lms.common.Utility;
+import com.lms.model.Librarian;
 import com.lms.service.TransactionServices;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -81,7 +82,12 @@ public class IssueBook extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String bookID = tf_bookID.getText();
 				String userID = tf_UserID.getText();
-				do_IssueBooks(bookID,userID);
+				String issueBookStatus =  Librarian.issueBooks(bookID,userID);
+				
+				if(!issueBookStatus.equals("Success")){
+					JOptionPane.showMessageDialog(getContentPane(), issueBookStatus, "", JOptionPane.WARNING_MESSAGE);
+				};
+				
 			}
 		});
 		btnIssueBook.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -100,31 +106,6 @@ public class IssueBook extends JFrame {
 		contentPane.add(btnBack);
 	}
 	
-	private void do_IssueBooks(String strBookID, String strUserID) {
-
-		String errorMessage = null;
-		
-		//Check if user has entered input
-		if(Utility.validateInput(strBookID, strUserID)) {
-			//Convert input texts to integers and validate
-			int bookID = Utility.validateID(strBookID);
-			int userID = Utility.validateID(strUserID);
-			
-			if (bookID != -1 && userID != -1) {
-				//Issue book primary method in service class
-				String IssueBookStatus = TransactionServices.issueBooks(bookID , userID);
-				
-				if (IssueBookStatus.equals("Success")){
-					JOptionPane.showMessageDialog(null, "Succesfully Issued Book");
-					
-				}else {errorMessage = IssueBookStatus;}	
-			}else {errorMessage = "please enter valid IDs";}
-		}else {errorMessage = "please fill all details";}
-		
-		if(errorMessage != null && !errorMessage.isEmpty())  {
-			JOptionPane.showMessageDialog(getContentPane(), errorMessage, "", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-	}
+	
 
 }

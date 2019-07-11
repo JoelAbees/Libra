@@ -6,6 +6,9 @@ package com.lms.ui.admin;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.lms.model.Admin;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -77,21 +80,19 @@ public class AdminLogin extends JFrame {
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					String userName = tf_adminUserName.getText();
-					String password = passwordField.getText();
-					
-					if(userName.equals("admin") && password.equals("admin123")) {
-						dispose();
-						AdminSection AdminSection = new AdminSection();
-						AdminSection.setVisible(true);						
-					}else {
-						JOptionPane.showMessageDialog(null, "Username or Password is wrong");
+				
+				String userName = tf_adminUserName.getText();
+				String password = passwordField.getText();
+				
+				if(Admin.adminLogin(userName, password)) {
+					dispose();
+					AdminSection AdminSection = new AdminSection();
+					AdminSection.setVisible(true);
+				}else {
+					JOptionPane.showMessageDialog(null, "Username or Password is wrong");
 					}
-					
-				}catch(Exception e2){
-					JOptionPane.showMessageDialog(null, e);
-				}
+				
+				
 				}
 			
 		});

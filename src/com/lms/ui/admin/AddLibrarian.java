@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import com.lms.common.Utility;
+import com.lms.model.Admin;
 import com.lms.model.User;
 import com.lms.service.UserServices;
 //import com.lms.ui.main.FirstPage;
@@ -115,7 +116,13 @@ public class AddLibrarian extends JFrame {
 		JButton btnAddLibrarian = new JButton("Add Librarian");
 		btnAddLibrarian.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				do_insertLibrarian();
+				
+				String addLibrarianStatus = Admin.addLibrarian(tf_librarianName.getText(),tf_librarianUserName.getText(),tf_librarianPassword.getText(),tf_librarianEmail.getText(),tf_librarianPhoneNumber.getText());
+				if(!addLibrarianStatus.equals("Success")){
+					JOptionPane.showMessageDialog(getContentPane(), addLibrarianStatus, "", JOptionPane.WARNING_MESSAGE);
+			
+				}
+			
 			}
 		});
 		btnAddLibrarian.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -134,35 +141,5 @@ public class AddLibrarian extends JFrame {
 		contentPane.add(btnBack);
 	}
 	
-	// triggers addition of new Librarian to DB
-	protected void do_insertLibrarian() {
 		
-		String errorMessage = null;
-		User librarian = new User();
-		UserServices userTool =  new UserServices();
-		
-		//Validate if all input fields are filled
-		boolean  validateInputResult = Utility.validateInput(tf_librarianName.getText(),tf_librarianUserName.getText(),tf_librarianPassword.getText(),tf_librarianEmail.getText(),tf_librarianPhoneNumber.getText());
-		
-		
-		if (validateInputResult) {
-			if(UserServices.isUsernameUnique(tf_librarianUserName.getText())) {
-			//Add Librarian to DB
-			librarian.setDetails(tf_librarianName.getText(),tf_librarianUserName.getText(),tf_librarianPassword.getText(),tf_librarianEmail.getText(),tf_librarianPhoneNumber.getText(), "LIBRARIAN");
-			int i = userTool.addUser(librarian); 
-			if (i == 1) { 
-				JOptionPane.showMessageDialog(null, "Succesfully added user");
-				return;
-			} else {errorMessage =  "Adding User Failed";}
-			}else {errorMessage =  "Username already taken";}
-		}else {errorMessage =  "Please fill all details";}
-		
-		
-		if(errorMessage != null && !errorMessage.isEmpty())  {
-			JOptionPane.showMessageDialog(getContentPane(), errorMessage, "", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-		
-	};
-	
 }

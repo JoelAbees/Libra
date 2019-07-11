@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.lms.common.Utility;
+import com.lms.model.Librarian;
 import com.lms.service.UserServices;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -84,7 +85,9 @@ public class LibrarianLogin extends JFrame {
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(do_LibrarianLogin()) {
+				String userName = tf_librarianUserName.getText();
+				String password = passwordField.getText();
+				if(Librarian.librarianLogin(userName,password )) {
 					dispose();
 					LibrarianSection librarianSection = new LibrarianSection();
 					librarianSection.setVisible(true);
@@ -96,22 +99,5 @@ public class LibrarianLogin extends JFrame {
 		contentPane.add(btnLogin);
 	}
 	
-	private boolean do_LibrarianLogin() {
-		String userName = tf_librarianUserName.getText();
-		String password = passwordField.getText();
-		
-		//Check if user has provided valid input
-		if(Utility.validateInput(userName,password)) {
-			//get Librarian ID from username and password
-			int librarianID = UserServices.userLogin(userName,password);
-			if (librarianID != -1) {
-				//Store Librarian ID in preference API for future reference until logout.
-				Preferences prefs = Preferences.userNodeForPackage(com.lms.ui.librarian.LibrarianLogin.class);
-				prefs.putInt("userId", librarianID);
-				return true;
-			}
-		}		
-		return false; 
-		}
-
+	
 }
